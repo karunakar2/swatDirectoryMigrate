@@ -5,8 +5,8 @@ Scope:
 1. Currently devised for SWAT2012 and windows use (others not tested)
 
 Dependencies:
-needs an external pyodbc module (pip install pyodbc) or equivalent conda env.
-This file is used in a module, so name might be a restriction at the moment.
+1. Needs an external pyodbc module (pip install pyodbc) or equivalent conda env.
+2. This file is used in a module, so name might be a restriction at the moment.
 
 Changes welcome.
 Please merge changes if you fork for a single window update to endusers.

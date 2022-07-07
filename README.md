@@ -5,6 +5,8 @@ Please check this thread:
 'Moving SWAT working files to another computer'
 at https://groups.google.com/g/arcswat/c/cyShln8LqCA
 
+Run this script in the directory where you've copied your SWAT setup files to.
+
 Scope:
 1. Currently devised for SWAT2012 and windows use (others not tested)
 

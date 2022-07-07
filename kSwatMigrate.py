@@ -1,5 +1,5 @@
 """
-Tool to update the relative file paths in the ARC-SWAT setup
+Tool (script) to update the relative file paths in the ARC-SWAT setup
 Initially directed towards SWAT 2012 style databases
 karunakar.kintada@gmail.com
 

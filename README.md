@@ -1,6 +1,10 @@
 # swatDirectoryMigrate
 Sometimes the ARC SWAT projects are built elsewhere and used on different windows machines. Traditionally, the databases need some updates. This is an attempt to automate it and centralise for multiple versions. Bear with python.  Thanks
 
+Please check this thread:
+'Moving SWAT working files to another computer'
+at https://groups.google.com/g/arcswat/c/cyShln8LqCA
+
 Scope:
 1. Currently devised for SWAT2012 and windows use (others not tested)
 

@@ -1,5 +1,5 @@
 """
-Tool (script) to update the relative file paths in the ARC-SWAT setup
+Tool to update the relative file paths in the ARC-SWAT setup
 Initially directed towards SWAT 2012 style databases
 karunakar.kintada@gmail.com
 
@@ -20,14 +20,15 @@ if pathlib.Path(__file__).name != 'kSwatMigrate.py':
 
 if __name__ == '__main__':
     #SWAT version
-    swatVer = 'SWAT2012'
+    #swatVer = 'SWAT2012'
     
     #get relavent files, establish access connection
     arcFile = glob.glob('*.mxd')
     tempArcFile = [x.replace('.mxd','') for x in arcFile]
 
     acsFile = glob.glob('*.mdb')
-    knownAcsFiles = ['RasterStore.mdb','SWAT2012.mdb']
+    swatVer = [x for x in acsFile if x.startswith('SWAT')][0][:-4]
+    knownAcsFiles = ['RasterStore.mdb','{0}.mdb'.format(swatVer)]
     temp = [acsFile.remove(x) for x in knownAcsFiles]
     if any(elem is not None for elem in temp):
         raise Warning ("Some standard files might be missing")

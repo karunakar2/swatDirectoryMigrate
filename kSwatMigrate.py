@@ -6,6 +6,7 @@ karunakar.kintada@gmail.com
 The code is self explanatory to an extent even for a non python programmer, so no comments
 """
 
+
 import sys
 import pathlib
 import glob
@@ -16,12 +17,10 @@ import pyodbc
 if pathlib.Path(__file__).name != 'kSwatMigrate.py':
     #module compatability and .py extension enforcement
     raise Exception ('Rename and run the script as kSwatMigrate.py')
-    sys.exit()
-
 if __name__ == '__main__':
     #SWAT version
     #swatVer = 'SWAT2012'
-    
+
     #get relavent files, establish access connection
     arcFile = glob.glob('*.mxd')
     tempArcFile = [x.replace('.mxd','') for x in arcFile]
@@ -35,36 +34,35 @@ if __name__ == '__main__':
     tempAcsFile = [x.replace('.mdb','') for x in acsFile]
 
     projFile = list(set(tempArcFile) & set(tempAcsFile)) #pick first
-    userReq = input('select current project from \n {}\n  position required: '.format(projFile))
+    userReq = input(
+        f'select current project from \n {projFile}\n  position required: '
+    )
     try:
         if isinstance(int(userReq),int) :
             projFile = projFile[int(userReq)-1]
     except Exception as er:
         print(er)
-        print('progressing with {}'.format(projFile[0]))
+        print(f'progressing with {projFile[0]}')
         projFile = projFile[0]
-    
+
     CNXNSTRING = 'Driver={0};DBQ={1};ExtendedAnsiSQL=1'.format('Microsoft Access Driver (*.mdb)','.'.join((projFile,'mdb')))
     try:
-         cnxn   = pyodbc.connect(CNXNSTRING)
-         cursor = cnxn.cursor()
+        cnxn   = pyodbc.connect(CNXNSTRING)
+        cursor = cnxn.cursor()
     except Exception as err:
         #no debugging here
         print(er)
         raise Exception ('Could not proceed, the SWAT database couldnot be opened')
-        sys.exit()
-
     #the current directory path that goes into the table as an update
     currDir = pathlib.Path().resolve()
     swatFilePath = pathlib.Path('{0}/{1}.{2}'.format(currDir,swatVer,'mdb'))
     try:
         myQuery = "UPDATE MasterProgress SET WorkDir='{0}' WHERE OutputGDB ='{1}';".format(str(currDir),projFile)
         cursor.execute(myQuery)
-        if swatFilePath.is_file():
-            myQuery = "UPDATE MasterProgress SET SwatGDB='{0}' WHERE OutputGDB ='{1}';".format(swatFilePath,projFile)
-            cursor.execute(myQuery)
-        else:
-            raise Exception ('Cannot locate swat database, {}.mdb'.format(swatVer))
+        if not swatFilePath.is_file():
+            raise Exception(f'Cannot locate swat database, {swatVer}.mdb')
+        myQuery = "UPDATE MasterProgress SET SwatGDB='{0}' WHERE OutputGDB ='{1}';".format(swatFilePath,projFile)
+        cursor.execute(myQuery)
     except Exception as er:
         print(er)
         print('cannot update using queries, please try manually')
